@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    #app {
+      border: 2px solid black;
+      width: 600px;
+      height: 300px;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 3px;
+      margin: 0 auto;
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div v-for="item in date">{{item}} </div> <br>
+    <div v-for="item in date2">{{item}} </div>
+  </div>
+  <script>
+    var app= new Vue({
+      el:'#app',
+      data(){
+        return{
+          date:{
+            name:'ycy',
+            sex:'male',
+            age:19,
+            home:'changde',
+          },
+          date2:['red','blue','yellow','black']
+        }
+      },
+      methods:{
+
+      },
+      computed:{
+
+      }
+    })
+  </script>
+</body>
+</html>
