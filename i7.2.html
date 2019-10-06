@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    #app {
+      border: 2px solid black;
+      width: 600px;
+      height: 300px;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 3px;
+      margin: 0 auto;
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <child1-component ref="c1" ></child1-component>  <br>
+    <child2-component ref="c2" ></child2-component>
+  </div>
+  <script>
+
+    Vue.component('child1-component',{
+      template:`<div>
+                  我是child1 <br>
+                  <button @click="postTo2">点我给2传数据</button>
+                  2给我传的数据-------{{get}}
+                </div>`,
+      data(){
+        return {
+          msg1:'我是来自child1中的信息',
+          get:''
+        }
+      },
+      methods:{
+        postTo2(){
+          this.$root.bus.$emit('c1toc2',this.msg1)
+        }
+      },
+      created(){
+        this.$root.bus.$on('c2toc1', value=> {
+          this.get=value
+        })
+      }
+    })
+
+    Vue.component('child2-component',{
+      template:`<div>我是child2 <br>
+                  <button @click="postTo1">点我给1传数据</button>
+                  1给我传的数据-------{{get}}
+                </div>`,
+      data(){
+        return {
+          msg2:'我是来自child2中的信息',
+          get:''
+        }
+      },
+      methods:{
+        postTo1(){
+          this.$root.bus.$emit('c2toc1',this.msg2)
+        }
+      },
+      created(){
+        this.$root.bus.$on('c1toc2',value=> {
+          this.get=value
+        })
+      }
+    })
+
+
+
+    var app= new Vue({
+      el:'#app',
+      data(){
+        return {
+          bus:new Vue()
+        }
+      }
+    })
+  </script>
+</body>
+</html>
